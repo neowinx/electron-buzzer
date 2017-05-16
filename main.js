@@ -51,11 +51,15 @@ socket.on('error', (err) => {
 
 socket.on('message', (msg, rinfo) => {
   console.log(`server got: ${msg} from ${rinfo.address}:${rinfo.port}`);
-  dialog.showMessageBox({
-    type: 'info',
-    title: 'Buzzz',
-    message: msg.toString()
-  })
+  // We are using the (somewhat) random port of the client as client id.
+  // We encourage to change this approach in a more serious application
+  if( client.address().port !== rinfo.port ) {
+    dialog.showMessageBox({
+      type: 'info',
+      title: 'Buzzz',
+      message: msg.toString()
+    })
+  }
 });
 
 socket.on('listening', () => {
